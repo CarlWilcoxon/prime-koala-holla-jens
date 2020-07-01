@@ -8,7 +8,9 @@ $( document ).ready( function(){
   getKoalas();
 
 }); // end doc ready
-
+function addKoala() {
+  console.log('adding a new Koala');
+}
 function setupClickListeners() {
   $( '#addButton' ).on( 'click', function(){
     console.log( 'in addButton on click' );
