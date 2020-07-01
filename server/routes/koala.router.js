@@ -1,18 +1,32 @@
-const express = require('express');
-const koalaRouter = express.Router();
+// requires
+const express = require( 'express' );
+const router = express.Router();
+const pool = require( './pool' );
+// routes
+router.get( '/', ( req, res )=>{
+    console.log( '/koalas GET' );
+    /// - query: SELECT * FROM "koals_holla" - ///
+    let queryString = `SELECT * FROM "koala_holla"`;
+    pool.query( queryString ).then( ( result )=>{
+        // success
+        res.send( result.rows );
+    }).catch( ( err )=>{
+        // error
+        res.sendStatus( 500 );
+    })
+}) // end /koalas GET
 
-// DB CONNECTION
-
-
-// GET
-
-
-// POST
-
-
-// PUT
-
-
-// DELETE
-
-module.exports = koalaRouter;
+router.post( '/', ( req, res )=>{
+    console.log( 'in /koalas POST:', req.body );
+    let queryString = `INSERT INTO koala_holla ("name", gender, age, ready_for_transfer, notes)
+        VALUES ( $1, $2, $3, $4, $5 )`;
+    pool.query( queryString, 
+        [ req.body.first_name, req.body.last_name , req.body.dob, req.body.height ] ).then( ( result )=>{
+            res.sendStatus( 201 );
+        }).catch( ( err )=>{
+            console.log( err );
+            res.sendStatus( 500 );
+        }) //end query
+})
+// export
+module.exports = router;
