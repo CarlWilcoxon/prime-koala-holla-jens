@@ -7,6 +7,7 @@ $( document ).ready( function(){
   // load existing koalas on page load
   getKoalas();
 
+  //Swal.fire("Hello World!");
 }); // end doc ready
 
 function addKoala() {
