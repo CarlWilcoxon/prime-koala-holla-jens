@@ -125,10 +125,8 @@ function updateKoalas(response) {
         <td><button class="readyButton">${koala.ready_for_transfer? 'Ready for transfer': 'Not ready for transfer'}</button></td>
         <td>${koala.notes}</td>
         <td><button class="removeButton">Remove</button></td>
-        <td><button class="editButton">Edit</button></td>
       </tr>
-    `);
+    `); // <td><button class="editButton">Edit</button></td>
   }
 }
-//TODO delete
 //TODO update

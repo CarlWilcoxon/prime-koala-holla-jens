@@ -19,7 +19,7 @@ router.delete( '/:id', ( req, res )=>{
 router.get( '/', ( req, res )=>{
     console.log( '/koalas GET' );
     /// - query: SELECT * FROM "koals_holla" - ///
-    let queryString = `SELECT * FROM "koala_holla"`;
+    let queryString = `SELECT * FROM "koala_holla" ORDER BY "id" ASC`;
     pool.query( queryString ).then( ( result )=>{
         // success
         res.send( result.rows );
