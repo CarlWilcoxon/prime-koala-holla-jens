@@ -53,6 +53,10 @@ function convertToBool(input) {
   }
 }
 
+function editKoala() {
+  console.log('edit button clicked');
+}
+
 function getKoalas(){
   console.log( 'in getKoalas' );
   // ajax call to server to get koalas
@@ -65,12 +69,14 @@ function getKoalas(){
     for (let i = 0; i < response.length; i++) {
         let koala = response[i];
         $('#viewKoalas').append(`
-            <tr>
-                <td>${koala.name}</td>
-                <td>${koala.gender}</td>
-                <td>${koala.age}</td>
-                <td>${koala.ready_for_transfer? 'Ready for transfer': 'Not ready for transfer'}</td>
-                <td>${koala.notes}</td>
+            <tr data-id="${koala.id}">
+              <td>${koala.name}</td>
+              <td>${koala.gender}</td>
+              <td>${koala.age}</td>
+              <td>${koala.ready_for_transfer? 'Ready for transfer': 'Not ready for transfer'}</td>
+              <td>${koala.notes}</td>
+              <td><button type="button" class="removeButton">Remove</button></td>
+              <td><button type="button" class="editButton">Edit</button></td>
             </tr>
         `);
       }
@@ -79,8 +85,37 @@ function getKoalas(){
   });
 } // end getKoalas
 
-function setupClickListeners() {
-  $( '#addButton' ).on( 'click', addKoala); 
+function removeKoala() {
+  console.log(this);
+  console.log('this thing', $(this));
+
+  /*$.ajax({
+    type: 'DELETE',
+    url: '/koalas' + id
+    //then, when you get a response, append a table row to the DOM with the info you received
+  }).then(function (response) {
+    $('#viewKoalas').empty();  
+    
+  }).catch(function  (err) {
+    console.log('Error getting Koalas:', err);
+  });*/
 }
 
-//TODO only take the first character of gender input
+function setupClickListeners() {
+  $( '#addButton' ).on( 'click', addKoala);
+  $( '#viewKoalas' ).on('click', '.deleteButton', removeKoala);
+  $( '#viewKoalas' ).on('click', '.editButton', editKoala);
+}
+
+function toggleTransfer() {
+  if ($(this).is('.notReady')) {
+
+    //do one thingy
+    console.log('this is the red button');
+    toggleBlock.call( $ ('.red.invisible').first());
+  } else if ($(this).is('.ready')) {
+    //do a thing
+  }
+}
+//TODO delete
+//TODO update
