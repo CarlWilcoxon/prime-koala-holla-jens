@@ -16,11 +16,10 @@ function addKoala() {
     // NOT WORKING YET :(
     // using a test object
 
-
   let tempName = $('#nameIn').val();
   let tempGender = $('#genderIn').val().slice(0,1).toUpperCase();
   let tempAge = $('#ageIn').val();
-  let tempReady =convertToBool($('#readyForTransferIn').val());
+  let tempReady = convertToBool($('#readyForTransferIn').val());
   let tempNotes = $('#notesIn').val();
 
   let newKoala = {
@@ -39,6 +38,7 @@ function addKoala() {
     //then, when you get a response, append a table row to the DOM with the info you received
   }).then(function (response) {
     console.log(newKoala, 'added!');
+    getKoalas();
   }).catch(function  (err) {
     console.log('Error adding a Koala:', err);
   })
