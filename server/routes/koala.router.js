@@ -41,5 +41,19 @@ router.post( '/', ( req, res )=>{
             res.sendStatus( 500 );
         }) //end query
 }) // end /koalas POST
+
+router.put( '/toggle-ready/:id', ( req, res )=>{
+  console.log( 'in /koalas PUT:', req.params.id );
+  let queryString =   `UPDATE koala_holla
+                      SET ready_for_transfer = NOT ready_for_transfer
+                      WHERE id = $1;`;
+  pool.query( queryString, [ req.params.id ] ).then( ( result )=>{
+          res.sendStatus( 201 );
+      }).catch( ( err )=>{
+          console.log( err );
+          res.sendStatus( 500 );
+      }) //end query
+})
+
 // export
 module.exports = router;
