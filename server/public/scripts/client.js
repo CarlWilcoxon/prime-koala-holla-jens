@@ -87,7 +87,7 @@ function getKoalas(){
 
 function removeKoala() {
   console.log(this);
-  console.log('this thing', $(this));
+  console.log('this thing', $(this).closest('tr').data('id'));
 
   /*$.ajax({
     type: 'DELETE',
@@ -103,7 +103,7 @@ function removeKoala() {
 
 function setupClickListeners() {
   $( '#addButton' ).on( 'click', addKoala);
-  $( '#viewKoalas' ).on('click', '.deleteButton', removeKoala);
+  $( '#viewKoalas' ).on('click', '.removeButton', removeKoala);
   $( '#viewKoalas' ).on('click', '.editButton', editKoala);
 }
 
