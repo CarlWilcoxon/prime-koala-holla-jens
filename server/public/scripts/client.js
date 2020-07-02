@@ -65,21 +65,7 @@ function getKoalas(){
     url: '/koalas'
     //then, when you get a response, append a table row to the DOM with the info you received
   }).then(function (response) {
-    $('#viewKoalas').empty();  
-    for (let i = 0; i < response.length; i++) {
-        let koala = response[i];
-        $('#viewKoalas').append(`
-            <tr data-id="${koala.id}">
-              <td>${koala.name}</td>
-              <td>${koala.gender}</td>
-              <td>${koala.age}</td>
-              <td>${koala.ready_for_transfer? 'Ready for transfer': 'Not ready for transfer'}</td>
-              <td>${koala.notes}</td>
-              <td><button type="button" class="removeButton">Remove</button></td>
-              <td><button type="button" class="editButton">Edit</button></td>
-            </tr>
-        `);
-      }
+    updateKoalas(response);
   }).catch(function  (err) {
     console.log('Error getting Koalas:', err);
   });
@@ -108,13 +94,40 @@ function setupClickListeners() {
 }
 
 function toggleTransfer() {
+  let parcel = false;
   if ($(this).is('.notReady')) {
-
     //do one thingy
     console.log('this is the red button');
     toggleBlock.call( $ ('.red.invisible').first());
   } else if ($(this).is('.ready')) {
     //do a thing
+  }
+  $.ajax({
+    type: 'PUT',
+    url: '/koalas' + id
+    //then, when you get a response, append a table row to the DOM with the info you received
+  }).then(function (response) {
+    updateKoalas(response);
+  }).catch(function  (err) {
+    console.log('Error getting Koalas:', err);
+  });
+}
+
+function updateKoalas(response) {
+  $('#viewKoalas').empty();  
+  for (let i = 0; i < response.length; i++) {
+    let koala = response[i];
+    $('#viewKoalas').append(`
+      <tr data-id="${koala.id}">
+        <td>${koala.name}</td>
+        <td>${koala.gender}</td>
+        <td>${koala.age}</td>
+        <td>${koala.ready_for_transfer? 'Ready for transfer': 'Not ready for transfer'}</td>
+        <td>${koala.notes}</td>
+        <td><button type="button" class="removeButton">Remove</button></td>
+        <td><button type="button" class="editButton">Edit</button></td>
+      </tr>
+    `);
   }
 }
 //TODO delete
