@@ -3,6 +3,19 @@ const express = require( 'express' );
 const router = express.Router();
 const pool = require( './pool' );
 // routes
+
+router.delete( '/:id', ( req, res )=>{
+  console.log( 'in /koalas DELETE:', req.params.id );
+  let queryString = `DELETE FROM koala_holla
+      WHERE id = $1;`;
+  pool.query( queryString, [ req.params.id ] ).then( ( result )=>{
+          res.sendStatus( 201 );
+      }).catch( ( err )=>{
+          console.log( err );
+          res.sendStatus( 500 );
+      }) //end query
+})
+
 router.get( '/', ( req, res )=>{
     console.log( '/koalas GET' );
     /// - query: SELECT * FROM "koals_holla" - ///
@@ -27,6 +40,6 @@ router.post( '/', ( req, res )=>{
             console.log( err );
             res.sendStatus( 500 );
         }) //end query
-})
+}) // end /koalas POST
 // export
 module.exports = router;

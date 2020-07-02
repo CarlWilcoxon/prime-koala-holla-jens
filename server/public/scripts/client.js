@@ -73,18 +73,17 @@ function getKoalas(){
 
 function removeKoala() {
   console.log(this);
-  console.log('this thing', $(this).closest('tr').data('id'));
+  let id = $(this).closest('tr').data('id');
 
-  /*$.ajax({
+  $.ajax({
     type: 'DELETE',
-    url: '/koalas' + id
+    url: '/koalas/' + id
     //then, when you get a response, append a table row to the DOM with the info you received
-  }).then(function (response) {
-    $('#viewKoalas').empty();  
-    
+  }).then(function (response) { 
+    getKoalas();
   }).catch(function  (err) {
     console.log('Error getting Koalas:', err);
-  });*/
+  });
 }
 
 function setupClickListeners() {
