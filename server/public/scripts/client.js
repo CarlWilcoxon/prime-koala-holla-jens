@@ -8,25 +8,49 @@ $( document ).ready( function(){
   getKoalas();
 
 }); // end doc ready
+
 function addKoala() {
   console.log('adding a new Koala');
-}
-function setupClickListeners() {
-  $( '#addButton' ).on( 'click', function(){
-    console.log( 'in addButton on click' );
+  console.log( 'in addButton on click' );
     // get user input and put in an object
     // NOT WORKING YET :(
     // using a test object
-    let koalaToSend = {
-      name: 'testName',
-      gender: 'D',
-      age: 7,
-      readyForTransfer: false,
-      notes: 'loves swimming in lava',
-    };
-    // call saveKoala with the new obejct
-    saveKoala( koalaToSend );
-  }); 
+
+
+  let tempName = $('#nameIn').val();
+  let tempGender = $('#genderIn').val().slice(0,1).toUpperCase();
+  let tempAge = $('#ageIn').val();
+  let tempReady =convertToBool($('#readyForTransferIn').val());
+  let tempNotes = $('#notesIn').val();
+
+  let newKoala = {
+    name: tempName,
+    gender: tempGender,
+    age: tempAge,
+    ready_for_transfer: tempReady,
+    notes: tempNotes
+  };
+
+  // ajax call with the new obejct
+  $.ajax({
+    type: 'POST',
+    url: '/koalas',
+    data: newKoala
+    //then, when you get a response, append a table row to the DOM with the info you received
+  }).then(function (response) {
+    console.log(newKoala, 'added!');
+  }).catch(function  (err) {
+    console.log('Error adding a Koala:', err);
+  })
+}
+
+function convertToBool(input) {
+  if (input.toLowerCase() == 'no' || input.toLowerCase() == 'not yet' ||
+  input.toLowerCase() == 'nope' || input.toLowerCase() == 'kinda') {
+    return false;
+  } else {
+    return !!input; //everything that is not falsy return as true
+  }
 }
 
 function getKoalas(){
@@ -36,11 +60,10 @@ function getKoalas(){
     type: 'GET',
     url: '/koalas'
     //then, when you get a response, append a table row to the DOM with the info you received
-}).then(function (response) {
-  $('#viewKoalas').empty();  
-  for (let i = 0; i < response.length; i++) {
+  }).then(function (response) {
+    $('#viewKoalas').empty();  
+    for (let i = 0; i < response.length; i++) {
         let koala = response[i];
-        console.log(koala.ready_for_transfer);
         $('#viewKoalas').append(`
             <tr>
                 <td>${koala.name}</td>
@@ -50,17 +73,14 @@ function getKoalas(){
                 <td>${koala.notes}</td>
             </tr>
         `);
-    }
-}).catch(function  (err) {
-  console.log('Error getting Koalas:', err);
-});
+      }
+  }).catch(function  (err) {
+    console.log('Error getting Koalas:', err);
+  });
 } // end getKoalas
 
-function saveKoala( newKoala ){
-  console.log( 'in saveKoala', newKoala );
-  // ajax call to server to get koalas
- 
+function setupClickListeners() {
+  $( '#addButton' ).on( 'click', addKoala); 
 }
-
 
 //TODO only take the first character of gender input

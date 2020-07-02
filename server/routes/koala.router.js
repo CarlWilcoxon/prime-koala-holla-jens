@@ -21,7 +21,7 @@ router.post( '/', ( req, res )=>{
     let queryString = `INSERT INTO koala_holla ("name", gender, age, ready_for_transfer, notes)
         VALUES ( $1, $2, $3, $4, $5 )`;
     pool.query( queryString, 
-        [ req.body.first_name, req.body.last_name , req.body.dob, req.body.height ] ).then( ( result )=>{
+        [ req.body.name, req.body.gender , req.body.age, req.body.ready_for_transfer, req.body.notes ] ).then( ( result )=>{
             res.sendStatus( 201 );
         }).catch( ( err )=>{
             console.log( err );
